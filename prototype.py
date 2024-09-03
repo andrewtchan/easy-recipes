@@ -44,3 +44,6 @@ def home():
 
     html = str(a)
     return html
+
+if __name__ == "__main__":
+    app.run(debug=False)
