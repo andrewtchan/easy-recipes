@@ -8,7 +8,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    url = 'https://cooking.nytimes.com/recipes/1017303-roast-lamb'
+    return 'Add /recipe/your-recipe\'s-url to the end of this page\'s url to scrape a recipe.'
+
+@app.route('/recipe/<path:url>')
+def recipe(url):
     name = 'Andrew C.'
     html = requests.get(url, headers={'User-Agent': f'Hungry person {name}'}).content
     scraper = scrape_html(html, org_url=url)
@@ -19,7 +22,7 @@ def home():
     with a.html():
         with a.head():
             a.meta(charset='utf-8')
-            a.title(_t='Simply Recipes')
+            a.title(_t='easy-recipes')
         
         with a.body():
             with a.h1():
@@ -45,5 +48,9 @@ def home():
     html = str(a)
     return html
 
+@app.errorhandler(500)
+def pageNotFound(error):
+    return "this recipe site may not be supported by the scraper yet"
+    
 if __name__ == "__main__":
     app.run(debug=False)
